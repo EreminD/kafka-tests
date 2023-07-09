@@ -17,11 +17,9 @@ public class RateProducer {
     @Value(value = "${spring.kafka.price-topic}")
     private String topicName;
 
-    private final Random random = new Random();
-
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 10*1000)
     public Price get() {
-        double value = Math.round(random.nextDouble() * 10000) / 100.0;
+        double value = Math.round(new Random().nextDouble() * 10000) / 100.0;
         Price p = new Price("USD", value);
         kafkaTemplate.send(topicName, p);
         System.out.println(p);
