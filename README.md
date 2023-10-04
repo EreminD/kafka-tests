@@ -8,7 +8,7 @@
 - получить инфу по кредиту: `GET localhost:8082/loan`
 
 ## Запуск
-1. Start kafka `docker-compose up -d`
+1. Поднять kafka `docker-compose up -d`
 2. Запуск rate-producer: метод `main()` в классе `MainProducer`
 3. Запуск loan service: метод `main()` в классе `MainLoan`
 4. Запуск deposit service: метод `main()` в классе `MainDeposit`
