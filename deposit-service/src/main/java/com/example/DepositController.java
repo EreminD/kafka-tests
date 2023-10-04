@@ -13,8 +13,8 @@ public class DepositController {
 
     @KafkaListener(topics = "${spring.kafka.price-topic}", groupId = "deposit")
     public void listenGroup(@Payload Price message) {
-            System.out.println("Received Message in group deposit: " + message);
-            currentPrice = message;
+        System.out.println("Received Message in group deposit: " + message);
+        currentPrice = message;
     }
 
     @GetMapping("/deposit")

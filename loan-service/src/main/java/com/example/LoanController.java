@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 public class LoanController {
     private Price currentPrice = new Price();
-    private final ObjectMapper mapper = new ObjectMapper();
 
-    @KafkaListener(topics = "${spring.kafka.price-topic}", groupId = "deposit")
+    @KafkaListener(topics = "${spring.kafka.price-topic}", groupId = "loan")
     public void listenGroup(@Payload Price message) {
         System.out.println("Received Message in group deposit: " + message);
         currentPrice = message;
