@@ -1,5 +1,6 @@
 package com.example;
 
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +12,9 @@ import java.util.Random;
 public class DepositController {
     private Price currentPrice = new Price();
 
-    @KafkaListener(topics = "${spring.kafka.price-topic}", groupId = "deposit")
+    @RabbitListener(queues = "${spring.rabbitmq.price-queue}")
     public void listenGroup(@Payload Price message) {
-        System.out.println("Received Message in group deposit: " + message);
+        System.out.println("Received Message in deposit: " + message);
         currentPrice = message;
     }
 
