@@ -1,8 +1,14 @@
 package com.example;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Price {
+@JsonSerialize()
+@JsonDeserialize()
+public class Price implements Serializable {
     private String currency;
     private double price;
 

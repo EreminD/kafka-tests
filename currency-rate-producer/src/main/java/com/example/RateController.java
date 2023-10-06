@@ -10,16 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 public class RateController {
 
-    @Autowired
-    private KafkaTemplate<String, Price> kafkaTemplate;
 
-    @Value(value = "${spring.kafka.price-topic}")
+    @Value(value = "${spring.rabbitmq.price-queue}")
     private String topicName;
 
     @GetMapping("/rate/{price}")
     public Price setPrice(@PathVariable("price") double price) {
         Price p = new Price("USD", price);
-        kafkaTemplate.send(topicName, p);
+//        kafkaTemplate.send(topicName, p);
         System.out.println(p);
         return p;
     }

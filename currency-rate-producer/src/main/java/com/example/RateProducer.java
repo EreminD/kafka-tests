@@ -1,8 +1,10 @@
 package com.example;
 
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -11,17 +13,13 @@ import java.util.Random;
 @Service
 public class RateProducer {
     @Autowired
-    private KafkaTemplate<String, Price> kafkaTemplate;
-
-    @Value(value = "${spring.kafka.price-topic}")
-    private String topicName;
-
+    private RabbitTemplate rabbitTemplate;
+    @Autowired
+    private Queue queue;
     @Value(value = "${price.auto-publisher.enabled}")
     private boolean autoPublishEnabled;
-
     @Value(value = "${price.auto-publisher.min_price}")
     private double min;
-
     @Value(value = "${price.auto-publisher.max_price}")
     private double max;
 
@@ -30,7 +28,7 @@ public class RateProducer {
         if (autoPublishEnabled) {
             double value = new Random().doubles(min, max).findFirst().getAsDouble();
             Price p = new Price("USD", value);
-            kafkaTemplate.send(topicName, p);
+            rabbitTemplate.convertAndSend(queue.getName(), p);
             System.out.println(p);
         }
     }
