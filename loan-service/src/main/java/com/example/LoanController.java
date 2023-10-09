@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoanController {
     private Price currentPrice = new Price();
 
-    @RabbitListener(queues = "${spring.rabbitmq.price-queue}")
+    @RabbitListener(queues = "#{autoDeleteQueue.name}")
     public void listenGroup(@Payload Price message) {
         System.out.println("Received Message loan: " + message);
         currentPrice = message;

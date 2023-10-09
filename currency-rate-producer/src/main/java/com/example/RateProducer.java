@@ -1,7 +1,6 @@
 package com.example;
 
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +14,7 @@ public class RateProducer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
     @Autowired
-    private Queue queue;
+    private FanoutExchange fanout;
     @Value(value = "${price.auto-publisher.enabled}")
     private boolean autoPublishEnabled;
     @Value(value = "${price.auto-publisher.min_price}")
@@ -23,12 +22,12 @@ public class RateProducer {
     @Value(value = "${price.auto-publisher.max_price}")
     private double max;
 
-    @Scheduled(fixedRate = 10*1000)
+    @Scheduled(fixedRate = 10 * 1000)
     public void get() {
         if (autoPublishEnabled) {
             double value = new Random().doubles(min, max).findFirst().getAsDouble();
             Price p = new Price("USD", value);
-            rabbitTemplate.convertAndSend(queue.getName(), p);
+            rabbitTemplate.convertAndSend(fanout.getName(), "", p);
             System.out.println(p);
         }
     }
