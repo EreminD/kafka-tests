@@ -19,6 +19,6 @@ public class DepositController {
 
     @GetMapping("/deposit")
     public DepositInfo getLoanInfo() {
-        return new DepositInfo(currentPrice, new Random().nextDouble());
+        return new DepositInfo(currentPrice, currentPrice.getPrice() + new Random().nextDouble());
     }
 }

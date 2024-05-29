@@ -13,7 +13,7 @@ public class LoanController {
 
     @KafkaListener(topics = "${spring.kafka.price-topic}", groupId = "loan")
     public void listenGroup(@Payload Price message) {
-        System.out.println("Received Message in group deposit: " + message);
+        System.out.println("Received Message in group loan: " + message);
         currentPrice = message;
     }
 
