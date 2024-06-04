@@ -18,7 +18,7 @@ public class RateController {
 
     @GetMapping("/rate/{price}")
     public Price setPrice(@PathVariable("price") double price) {
-        Price p = new Price("USD", price);
+        Price p = new Price("USD", price+0.05);
         kafkaTemplate.send(topicName, p);
         System.out.println(p);
         return p;
