@@ -1,1 +1,12 @@
-GET http://localhost:8081/rate/85.67
+#GET http://localhost:8081/rate/87.00
+
+ GET http://localhost:8082/loan
+
+# GET localhost:8083/deposit
+
+__TypeId__	com.example.Price
+
+{
+  "currency": "USD",
+  "price": 87.05
+}
